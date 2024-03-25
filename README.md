@@ -11,8 +11,8 @@ Install the environment needed to run UniDepth with:
 export VENV_DIR=<YOUR-VENVS-DIR>
 export NAME=Unidepth
 
-python -m venv $VENV_DIR/$NAME;
-source $VENV_DIR/$NAME/bin/activate;
+python -m venv $VENV_DIR/$NAME
+source $VENV_DIR/$NAME/bin/activate
 pip install -r requirements.txt
 export PYTHONPATH="$PWD:$PYTHONPATH"
 ```
@@ -35,8 +35,8 @@ import torch
 import numpy as np
 from PIL import Image
 
-
-model = torch.hub.load("lpiccinelli-eth/UniDepth", "UniDepthV1_ViTL14", pretrained=True, trust_repo=True)
+unidepth_version = "UniDepthV1_ViTL14"
+model = torch.hub.load("lpiccinelli-eth/UniDepth", unidepth_version, pretrained=True, trust_repo=True)
 rgb = torch.from_numpy(np.array(Image.open(...))).permute(2,0,1) # do not normalize
 intrinsics = torch.from_numpy(np.load(...)) if exists else None
 
@@ -53,12 +53,29 @@ data = {"image": rgb.unsqueeze(0), "K": intrinsics.unsqueeze(0)}
 predictions = model(data, {})
 ```
 
-Available models (so far) on TorchHub and HuggingFace:
+Current available versions of UniDepth on TorchHub:
 
 1. UniDepthV1_ViTL14
 2. UniDepthV1_ConvNextL
 
 Please visit our [HuggingFace](https://huggingface.co/lpiccinelli/UniDepth) to access models weights.
+
+## Results
+
+### Metric Depth Estimation
+The performance reported is d1 (higher is better) on zero-shot evaluation. The common split between SUN-RGBD and NYUv2 is removed from SUN-RGBD validation set for evaluation. 
+*: non zero-shot on NYUv2 and KITTI.
+
+| Model | NYUv2 | SUN-RGBD | ETH3D | Diode (In) | IBims-1 | KITTI | Nuscenes | DDAD | 
+| :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: | :-: |
+| BTS* | 88.5 | 76.1 | 26.8 | 19.2 | 53.1 | 96.2 | 33.7 | 43.0 |
+| AdaBins* | 90.1 | 77.7 | 24.3 | 17.4 | 55.0 | 96.3 | 33.3 | 37.7 |
+| NeWCRF* | 92.1 | 75.3 | 35.7 | 20.1 | 53.6 | 97.5 | 44.2 | 45.6 | 
+| iDisc* | 93.8 | 83.7 | 35.6 | 23.8 | 48.9 | 97.5 | 39.4 | 28.4 |
+| ZoeDepth* | 95.2 | 86.7 | 35.0 | 36.9 | 58.0 | 96.5 | 28.3 | 27.2 |
+| Metric3D | 92.6 | 15.4 | 45.6 | 39.2 | 79.7 | 97.5 | 72.3 | - |
+| UniDepth_ConvNext | 97.2| 94.8 | 49.8 | 60.2 | 79.7 | 97.2 | 83.3 | 83.2 |
+| UniDepth_ViT | 98.4 | 96.6 | 32.6 | 77.1 | 23.9 | 98.6 | 86.2 | 86.4 |
 
 
 ## Zero-Shot Visualization
