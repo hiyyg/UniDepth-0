@@ -1,13 +1,12 @@
-> [**UniDepth: Universal Monocular Metric Depth Estimation**](),            
-> Luigi Piccinelli, Yung-Hsu Yang, Christos Sakaridis, Mattia Segu, Siyuan Li, Luc Van Gool, Fisher Yu
-> CVPR 2023 (to appear)
-<!-- > *Paper ([arXiv 2304.06334](https://arxiv.org/pdf/2304.06334.pdf))* -->
+> [**UniDepth: Universal Monocular Metric Depth Estimation**](),  
+> Luigi Piccinelli, Yung-Hsu Yang, Christos Sakaridis, Mattia Segu, Siyuan Li, Luc Van Gool, Fisher Yu,  
+> CVPR 2024 (to appear),  
+<!-- > *Paper ([arXiv 2304.06334](https://arxiv.org/pdf/2304.06334.pdf))*   -->
 
 
 ## Installation
 
-Please refer to [INSTALL.md](docs/INSTALL.md) for installation and to [DATA.md](docs/DATA.md) for datasets preparation.
-
+Install the environment needed to run UniDepth with:
 ```shell
 export VENV_DIR=<YOUR-VENVS-DIR>
 export NAME=Unidepth
@@ -54,9 +53,10 @@ data = {"image": rgb.unsqueeze(0), "K": intrinsics.unsqueeze(0)}
 predictions = model(data, {})
 ```
 
-Available models (so far):
-> UniDepthV1_ViTL14
-> UniDepthV1_ConvNextL
+Available models (so far) on TorchHub and HuggingFace:
+
+1. UniDepthV1_ViTL14
+2. UniDepthV1_ConvNextL
 
 Please visit our [HuggingFace](https://huggingface.co/lpiccinelli/UniDepth) to access models weights.
 
